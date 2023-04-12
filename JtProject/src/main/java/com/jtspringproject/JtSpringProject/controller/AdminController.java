@@ -37,12 +37,14 @@ public class AdminController {
 		}
 			
 	}
+
+	
 	@GetMapping("/userloginvalidate")
 	public String userlog(Model model) {
 		
 		return "userLogin";
 	}
-	@RequestMapping(value = "userloginvalidate", method = RequestMethod.POST)
+	@PostMapping("/userloginvalidate")
 	public String userlogin( @RequestParam("username") String username, @RequestParam("password") String pass,Model model) {
 		try
 		{
@@ -55,8 +57,7 @@ public class AdminController {
 				return "redirect:/index";
 				}
 			else {
-				//model.addAttribute("message", "Invalid Username or Password");
-				System.out.println(111);
+				model.addAttribute("message", "Invalid Username or Password");
 				return "userLogin";
 			}
 			

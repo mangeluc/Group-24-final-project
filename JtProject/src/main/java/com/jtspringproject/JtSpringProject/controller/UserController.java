@@ -120,7 +120,7 @@ public class UserController{
 	        while (rs.next()) {
 	            int id = rs.getInt("id");
 	            int price = rs.getInt("price");
-	            String image = rs.getString("image");
+	            String image = "/images/" +rs.getString("image");
 	            Product product = new Product(id, image, price);
 	            products.add(product);
 	        }
@@ -171,14 +171,8 @@ public class UserController{
 	        }
 	    }
 	    
-	    
-	
-	    
-	    
-	    
-
-
-	    model.addAttribute("products", products);
+	   
+	    model.addAttribute("image1", products.get(0).getImage());
 	    return "index";
 	}
 }

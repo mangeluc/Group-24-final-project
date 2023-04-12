@@ -19,7 +19,7 @@
     
         <div class="col-sm-6">
             <h2>User Login</h2>
-            <form action="userloginvalidate" method="post">
+            <form action="/userloginvalidate" method="post">
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input type="text" name="username" id="username" placeholder="Username*" required class="form-control form-control-lg">

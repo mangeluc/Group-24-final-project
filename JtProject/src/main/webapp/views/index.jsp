@@ -31,7 +31,7 @@
 		
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <h4>Welcome ${ username } </h4>
-         <p th:text="${giao}">Placeholder image path</p>
+
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 <li class="nav-item active">
@@ -70,10 +70,10 @@
               <div class="container text-center">
                 <div class="row">
                   <div class="col-sm-6 image">
-                  <p th:text="${giao}">Placeholder image path</p>
                     <div class="item">
                       <h1>Today's Deal</h1>
-                       <img class="img-fluid" th:with="product=${products.get(0)}" th:src="@{${product.getImage()}}" alt="Product Image" />
+                      <p> ${image1}<p> 
+                       <img class="img-fluid" src="${image1}" alt="Product Image" />
                     </div><!--enditem-->
                   </div><!--endcol-->
                   <div class="col-sm-6">
