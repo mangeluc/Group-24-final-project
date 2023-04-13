@@ -13,6 +13,34 @@
           <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+  // add event listener to the "Add To Cart" button
+  $("#add-to-cart").click(function(event) {
+    // prevent the default form submission behavior
+    event.preventDefault();
+
+    // get the product id from the button data attribute
+    var productId = $(this).data("product-id");
+
+    // send an AJAX request to the controller with the product id
+    $.ajax({
+      type: "POST",
+      url: "/add-to-cart",
+      data: { productId: productId },
+      success: function(response) {
+        // handle the success response here
+        console.log(response);
+      },
+      error: function(xhr, status, error) {
+        // handle the error response here
+        console.log(xhr.responseText);
+      }
+    });
+  });
+});
+</script>
+ 
     <title>Document</title>
     
 </head>
@@ -73,7 +101,7 @@
                     <div class="item">
                       <h1>Today's Deal</h1>
                       <p> ${image1}<p> 
-                       <img class="img-fluid" src="${image1}" alt="Product Image" />
+                       <img class="img-fluid" src="${product1.image}" alt="Product Image" />
                     </div><!--enditem-->
                   </div><!--endcol-->
                   <div class="col-sm-6">
@@ -84,8 +112,8 @@
                       <a href=""><b>2</b> <br> sec</a>
                     </div><!--endtop-->
                     <div class="details">
-                      <h2 class="cr3"> Burger</h2>
-                      <p class="cr4"> tomato, green salad, pita,<br> ketchup, mayonnaise, ….</p>
+                      <h2 class="cr3"> ${product1.name}</h2>
+                      <p class="cr4"> ${product1.description}.</p>
                       <div class="rating">
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
@@ -93,8 +121,8 @@
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star"></i>
                       </div><!--endrating-->
-                      <p class="cr1">$ 3.55-$ 5.55</s></p>
-                  <a href="/user/products" class="btn btn-food">Buy Now</a>
+                      <p class="cr1">${product1.price}</s></p>
+                  <a href="/user/products" class="btn btn-food" id="add-to-cart" data-product-id="${product1.id}">Add To Cart</a>
                 </div><!--enddetails-->
               </div><!--endcol-->
             </div><!--endrow-->
@@ -106,7 +134,7 @@
               <div class="col-sm-6 image">
                 <div class="item">
                   <h1>Today Deal</h1>
-                 <img class="img-fluid" src="" alt="">
+                 <img class="img-fluid" src="${product2.image}" alt="product Image">
                 </div><!--enditem-->
               </div><!--endcol-->
               <div class="col-sm-6">
@@ -117,8 +145,8 @@
                   <a href=""><b>2</b> <br> sec</a>
                 </div><!--endtop-->
                 <div class="details">
-                  <h2 class="cr3">cheeze pizza</h2>
-                  <p class="cr4">margarita,<br> ketchup, maionese, ….</p>
+                  <h2 class="cr3">${product2.name}</h2>
+                  <p class="cr4">${product2.description}.</p>
                   <div class="rating">
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
@@ -126,8 +154,8 @@
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
                   </div><!--endrating-->
-                  <p class="cr1">$ 3.55-$ 5.55</s></p>
-              <a href="/user/products" class="btn btn-food">Buy Now</a>
+                  <p class="cr1">${product2.price}</s></p>
+              <a href="/user/products" class="btn btn-food">Add To Cart</a>
             </div><!--enddetails-->
           </div><!--endcol-->
         </div><!--endrow-->
@@ -140,7 +168,7 @@
                 <div class="item">
                   <h1></h1>
              
-                <img class="img-fluid" src="" alt="">
+                <img class="img-fluid" src="${product3.image}" alt="product image">
                 </div><!--enditem-->
               </div><!--endcol-->
               <div class="col-sm-6">
@@ -151,8 +179,8 @@
                   <a href=""><b>2</b> <br> sec</a>
                 </div><!--endtop-->
                 <div class="details">
-                  <h2 class="cr3">fruits</h2>
-                  <p class="cr4">margarita,<br> ketchup, maionese, ….</p>
+                  <h2 class="cr3">${product3.name}</h2>
+                  <p class="cr4">${product3.description}.</p>
                   <div class="rating">
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
@@ -160,8 +188,8 @@
                     <i class="fa fa-star"></i>
                     <i class="fa fa-star"></i>
                   </div><!--endrating-->
-                  <p class="cr1">$ 3.55-$ 5.55</s></p>
-              <a href="/user/products" class="btn btn-food">Buy Now</a>
+                  <p class="cr1">${product3.price}</s></p>
+              <a href="/user/products" class="btn btn-food">Add To Cart</a>
             </div><!--enddetails-->
           </div><!--endcol-->
         </div><!--endrow-->
@@ -403,7 +431,7 @@ body,html{width:100%;height:100%;}
                                         Best deal's
                                     </h4>
                                     <p class="">
-                                       Checkout out our products
+                                       view all products
                                         <br>
                                     </p>
                                 </div>
@@ -422,16 +450,16 @@ body,html{width:100%;height:100%;}
                                 </a>
                                 <div class="card-content">
                                     <h4 class="card-title">
-                                        Contact us
+                                        View cart
                                     </h4>
                                     <p class="">
-                                      find us.
+                                      view added items.
                                         <br>
                                     </p>
                                 </div>
                                 <div class="card-read-more">
                                     <a href="/contact" class="btn btn-link btn-block">
-                                        Contact
+                                        Go
                                     </a>
                                 </div>
                             </div>

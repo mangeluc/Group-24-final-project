@@ -1,6 +1,10 @@
 package com.jtspringproject.JtSpringProject.controller;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,11 +32,17 @@ public class AdminController {
 	
 	
 	@GetMapping("/index")
-	public String index(Model model) {
-		if(usernameforclass.equalsIgnoreCase(""))
+	public String index(Model model, HttpSession session) {
+		String username = (String) session.getAttribute("username");
+		if(username == null)
 			return "userLogin";
 		else {
-			model.addAttribute("username", usernameforclass);
+			List<Product> products = new ArrayList<>();
+			Util.FillProducts(products);
+		    model.addAttribute("product1", products.get(0));
+		    model.addAttribute("product2", products.get(1));
+		    model.addAttribute("product3", products.get(2));
+			model.addAttribute("username", username);
 			return "index";
 		}
 			
@@ -45,7 +55,7 @@ public class AdminController {
 		return "userLogin";
 	}
 	@PostMapping("/userloginvalidate")
-	public String userlogin( @RequestParam("username") String username, @RequestParam("password") String pass,Model model) {
+	public String userlogin( @RequestParam("username") String username, @RequestParam("password") String pass, HttpSession session, Model model) {
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -53,7 +63,8 @@ public class AdminController {
 			Statement stmt = con.createStatement();
 			ResultSet rst = stmt.executeQuery("select * from users where username = '"+username+"' and password = '"+ pass+"' ;");
 			if(rst.next()) {
-				usernameforclass = rst.getString(2);
+				session.setAttribute("username", username);
+				session.setAttribute("userId", rst.getInt("user_id"));
 				return "redirect:/index";
 				}
 			else {

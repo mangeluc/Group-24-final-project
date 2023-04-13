@@ -16,45 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
-class Product {
-    private int id;
-    private int price;
-    private String image;
-
-    public Product() {
-    }
-
-    public Product(int id, String image, int price) {
-        this.id = id;
-        this.image = image;
-        this.price = price;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-    
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-}
-
 
 @Controller
 public class UserController{
@@ -112,16 +73,18 @@ public class UserController{
 
 	    try {
 	        Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);
-	        String query = "SELECT id, price, image FROM products WHERE name LIKE ? OR keywords LIKE ?";
+	        String query = "SELECT id, price, image, name, description FROM products WHERE name LIKE ? OR keywords LIKE ?";
 	        PreparedStatement pst = con.prepareStatement(query);
 	        pst.setString(1, "%" + searchTerm + "%");
 	        pst.setString(2, "%" + searchTerm + "%");
 	        ResultSet rs = pst.executeQuery();
 	        while (rs.next()) {
 	            int id = rs.getInt("id");
-	            int price = rs.getInt("price");
+	            String price = rs.getString("price") + "$";
 	            String image = "/images/" +rs.getString("image");
-	            Product product = new Product(id, image, price);
+	            String name = rs.getString("name");
+	            String description = rs.getString("description");
+	            Product product = new Product(id, name, description, image, price);
 	            products.add(product);
 	        }
 	        con.close();
@@ -129,50 +92,10 @@ public class UserController{
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
-	    
-	    
-	    for(int i = 0; i<products.size(); i++)
-	    {
-	    	System.out.println(products.get(i).getImage());
-	    }
-	      
-	    if (products.size() < 3) {
-	        Set<Integer> selectedProductIds = products.stream()
-	                .map(Product::getId)
-	                .collect(Collectors.toSet());
-
-	        try (Connection connection = DriverManager.getConnection(databaseURL,databaseUser,databasePassword)) {
-	            String sql;
-	            
-	            if (!selectedProductIds.isEmpty()) {
-	                sql = "SELECT id, image, price FROM products WHERE id NOT IN (" +
-	                        selectedProductIds.stream().map(String::valueOf).collect(Collectors.joining(", ")) +
-	                        ") ORDER BY RAND() LIMIT ?";
-	            } else {
-	                sql = "SELECT id, image, price FROM products ORDER BY RAND() LIMIT ?";
-	            }
-	            
-	      
-
-	            try (PreparedStatement pstmt = connection.prepareStatement(sql)) {
-	                pstmt.setInt(1, 3 - products.size());
-	                ResultSet rs = pstmt.executeQuery();
-
-	                while (rs.next()) {
-	                	int id = rs.getInt("id");
-	    	            int price = rs.getInt("price");
-	    	            String image = "/images/" + rs.getString("image");
-	    	            Product product = new Product(id, image, price);
-	    	            products.add(product);
-	                }
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
-	    }
-	    
-	   
-	    model.addAttribute("image1", products.get(0).getImage());
+	    Util.FillProducts(products);
+	    model.addAttribute("product1", products.get(0));
+	    model.addAttribute("product2", products.get(1));
+	    model.addAttribute("product3", products.get(2));
 	    return "index";
 	}
 }

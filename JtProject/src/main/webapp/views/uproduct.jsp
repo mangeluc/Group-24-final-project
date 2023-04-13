@@ -52,12 +52,11 @@
 			<tr>
 				<th scope="col">Serial No.</th>
 				<th scope="col">Product Name</th>
-				<th scope="col">Category</th>
+				<th scope="col">rating</th>
 				<th scope="col">Preview</th>
 				<th scope="col">Quantity</th>
 				<th scope="col">Price</th>
-				<th scope="col">Weight</th>
-				<th scope="col">Descrption</th>
+				<th scope="col">Description</th>
 				<th scope="col">Buy</th>
 				
 			</tr>
@@ -80,32 +79,20 @@
 						<%= rs.getInt(1) %>
 					</td>
 					<td>
-						<%= rs.getString(2) %>
+						<%= rs.getString("name") %>
 					</td>
 					<td>
-						<%
-							int categoryid = rs.getInt(4);
-							ResultSet rs2 = stmt2.executeQuery("select * from categories where categoryid = "+categoryid+";");
-							if(rs2.next())
-							{
-								out.print(rs2.getString(2));
-							}
-						%>
-						
+						<%= rs.getInt("rating") %>
 					</td>
-					<td><img src="https://th.bing.com/th/id/R.fd048601910e87d09c670b696ed153a0?rik=MCuRFnBGgWZPjA&riu=http%3a%2f%2fimages2.fanpop.com%2fimages%2fphotos%2f7300000%2fSlice-of-Pizza-pizza-7383219-1600-1200.jpg&ehk=Nr%2f8Tpc4Z3p5bgSOdOEWHlN1XJS1y7jol5%2bkS6qXCpE%3d&risl=&pid=ImgRaw&r=0"
-						height="100px" width="100px">
+					<td><img src="/images/<%= rs.getString("image") %>" height="80px" width="120px">
 					<td>
-						<%= rs.getInt(5) %>
+						<%= rs.getInt("quantity") %>
 					</td>
 					<td>
-						<%= rs.getInt(6) %>
+						<%= rs.getInt("price") %>
 					</td>
 					<td>
-						<%= rs.getInt(7) %>
-					</td>
-					<td>
-						<%= rs.getString(8) %>
+						<%= rs.getString("description") %>
 					</td>
 
 					<td>
