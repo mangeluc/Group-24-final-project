@@ -10,36 +10,48 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
           integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-          <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+          
+          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+          
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
 <script>
-$(document).ready(function() {
-  // add event listener to the "Add To Cart" button
-  $("#add-to-cart").click(function(event) {
-    // prevent the default form submission behavior
-    event.preventDefault();
+function addToCart(event, element) {
+	  event.preventDefault();
 
-    // get the product id from the button data attribute
-    var productId = $(this).data("product-id");
+	  const productId = $(element).data('product-id');
 
-    // send an AJAX request to the controller with the product id
-    $.ajax({
-      type: "POST",
-      url: "/add-to-cart",
-      data: { productId: productId },
-      success: function(response) {
-        // handle the success response here
-        console.log(response);
-      },
-      error: function(xhr, status, error) {
-        // handle the error response here
-        console.log(xhr.responseText);
-      }
-    });
-  });
-});
+	  console.log("Product ID:", productId); // Check the value of productId
+
+	  console.log("jQuery is loaded and working");
+
+	  $.ajax({
+	    type: 'POST',
+	    url: '/cart/update',
+	    data: {
+	      'productId': productId
+	    },
+	    contentType: 'application/x-www-form-urlencoded',
+	    success: function (response) {
+	      // Update the cart in the UI
+	      // You can customize this according to your requirements
+	      alert('Product added to cart successfully!');
+	    },
+	    error: function (xhr, textStatus, errorThrown) {
+	      // Log the error information
+	      console.log(xhr);
+	      console.log(textStatus);
+	      console.log(errorThrown);
+
+	      alert('Failed to add product to cart. Please try again.');
+	    }
+	  });
+	}
+
+
+	
 </script>
+
  
     <title>Document</title>
     
@@ -122,7 +134,8 @@ $(document).ready(function() {
                         <i class="fa fa-star"></i>
                       </div><!--endrating-->
                       <p class="cr1">${product1.price}</s></p>
-                  <a href="/user/products" class="btn btn-food" id="add-to-cart" data-product-id="${product1.id}">Add To Cart</a>
+                  <button type = "button" id="add-to-cart-btn" class="btn btn-food add-to-cart" data-product-id="${product1.id}" onclick="addToCart(event, this)">Add To Cart</button>
+
                 </div><!--enddetails-->
               </div><!--endcol-->
             </div><!--endrow-->
