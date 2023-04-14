@@ -60,7 +60,7 @@ function addToCart(event, element) {
 
 <section class="wrapper">
         <div class="container-fostrap">
-<nav class="navbar navbar-expand-lg navbar-light bg-light" >
+<nav class="navbar navbar-expand-lg navbar-light" >
     <div class="container-fluid">
         <a class="navbar-brand" href="#">
             <img th:src="@{/images/logo.png}"  src="../static/images/logo.png" width="auto" height="40" class="d-inline-block align-top" alt=""/>
@@ -111,18 +111,18 @@ function addToCart(event, element) {
                 <div class="row">
                   <div class="col-sm-6 image">
                     <div class="item">
-                      <h1>Today's Deal</h1>
+                      <!-- <h1>Today's Deal</h1> -->
                       <p> ${image1}<p> 
                        <img class="img-fluid" src="${product1.image}" alt="Product Image" />
                     </div><!--enditem-->
                   </div><!--endcol-->
                   <div class="col-sm-6">
-                    <div class="top d-flex justify-content-center">
+                    <!-- <div class="top d-flex justify-content-center">
                       <a href=""><b>2</b> <br>days</a>
                       <a href=""><b>20</b> <br> hours</a>
                       <a href=""><b>15</b> <br>min</a>
                       <a href=""><b>2</b> <br> sec</a>
-                    </div><!--endtop-->
+                    </div>endtop -->
                     <div class="details">
                       <h2 class="cr3"> ${product1.name}</h2>
                       <p class="cr4"> ${product1.description}.</p>
@@ -146,17 +146,17 @@ function addToCart(event, element) {
             <div class="row">
               <div class="col-sm-6 image">
                 <div class="item">
-                  <h1>Today Deal</h1>
+              <!--     <h1>Today Deal</h1> -->
                  <img class="img-fluid" src="${product2.image}" alt="product Image">
                 </div><!--enditem-->
               </div><!--endcol-->
               <div class="col-sm-6">
-                <div class="top d-flex justify-content-center">
+                <!-- <div class="top d-flex justify-content-center">
                   <a href=""><b>2</b> <br>days</a>
                   <a href=""><b>20</b> <br> hours</a>
                   <a href=""><b>15</b> <br>min</a>
                   <a href=""><b>2</b> <br> sec</a>
-                </div><!--endtop-->
+                </div>endtop -->
                 <div class="details">
                   <h2 class="cr3">${product2.name}</h2>
                   <p class="cr4">${product2.description}.</p>
@@ -185,12 +185,12 @@ function addToCart(event, element) {
                 </div><!--enditem-->
               </div><!--endcol-->
               <div class="col-sm-6">
-                <div class="top d-flex justify-content-center">
+                <!-- <div class="top d-flex justify-content-center">
                   <a href=""><b>2</b> <br>days</a>
                   <a href=""><b>20</b> <br> hours</a>
                   <a href=""><b>15</b> <br>min</a>
                   <a href=""><b>2</b> <br> sec</a>
-                </div><!--endtop-->
+                </div>endtop -->
                 <div class="details">
                   <h2 class="cr3">${product3.name}</h2>
                   <p class="cr4">${product3.description}.</p>
@@ -369,10 +369,19 @@ body,html{width:100%;height:100%;}
   display: inline-block;
 }
 
+@font-face {
+  font-family: 'Optima';
+  src: url('/path/to/your/font/optima-regular.woff2') format('woff2'),
+       url('/path/to/your/font/optima-regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 #sliderproduct .details h2 {
   margin: 25px 0px 30px 0px;
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 50px;
+  font-weight: normal;
+  font-family: Optima;
 }
 
 #sliderproduct .details p.cr4 {
@@ -471,7 +480,7 @@ body,html{width:100%;height:100%;}
                                     </p>
                                 </div>
                                 <div class="card-read-more">
-                                    <a href="/contact" class="btn btn-link btn-block">
+                                    <a href="/ucart" class="btn btn-link btn-block">
                                         Go
                                     </a>
                                 </div>
@@ -633,7 +642,7 @@ body,html{width:100%;height:100%;}
 
 
         .navbar {
-            background-color: black;
+           
             opacity: 0.9;
             z-index: 999;
             width: 100%;
