@@ -83,7 +83,7 @@
 					<td>
 						<%= rs.getInt("rating") %>
 					</td>
-					<td><img src="/images/<%= rs.getString("image") %>" height="80px" width="120px">
+					<td><img src="/images/<%= rs.getString("image") %>" height="130px" width="120px">
 					<td>
 						<%= rs.getInt("quantity") %>
 					</td>
