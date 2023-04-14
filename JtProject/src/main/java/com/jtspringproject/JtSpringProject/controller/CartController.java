@@ -21,15 +21,16 @@ import org.springframework.web.bind.annotation.*;
 
 
 
-@Controller
+@RestController
 public class CartController {
+
 	public static final String databaseURL = UserController.databaseURL;
 	public static final String databaseUser = UserController.databaseUser;
 	public static final String databasePassword = UserController.databasePassword;
     
-    @PostMapping("/add-to-cart")
+	@PostMapping("/cart/update")
     @ResponseBody
-    public ResponseEntity<String> addToCart(@RequestParam("productId") Long productId, HttpSession session) {
+    public ResponseEntity<String> addToCart(@RequestParam("productId") int productId, HttpSession session) {
       try {
         // Get the current user's ID from the session
         int userId = (int) session.getAttribute("userId");
