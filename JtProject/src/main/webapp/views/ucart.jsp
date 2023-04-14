@@ -57,7 +57,7 @@
 				<th scope="col">Quantity</th>
 				<th scope="col">Price</th>
 				<th scope="col">Description</th>
-				<th scope="col">Buy</th>
+				<!-- <th scope="col">Buy</th> -->
 				
 			</tr>
 			<tbody>
@@ -81,11 +81,18 @@
 						<%= rs.getString("name") %>
 					</td>
 					<td>
-						<%= rs.getInt("rating") %>
+						<%= rs.getFloat("rating") %>
 					</td>
 					<td><img src="/images/<%= rs.getString("image") %>" height="80px" width="120px">
 					<td>
-						<%= rs.getInt("quantity") %>
+						<%-- <%= rs.getInt("quantity") %> --%>
+						<select name = "quantity">
+							<option value = "q" selected disabled hidden><%= rs.getInt("quantity") %></option>
+							<option value = "q">1</option>
+							<option value = "q">2</option>
+							<option value = "q">3</option>
+							<option value = "q">4</option>
+						</select>
 					</td>
 					<td>
 						<%= rs.getInt("price") %>
@@ -94,7 +101,7 @@
 						<%= rs.getString("description") %>
 					</td>
 
-					<td>
+<%-- 					<td>
 					<form action="/buy" method="get">
 						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
   <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
@@ -102,7 +109,7 @@
 							<input type="submit" value="Buy" class="btn btn-info btn-lg">
 							
 					</form>
-					</td>
+					</td> --%>
 					<td>
 					
 					

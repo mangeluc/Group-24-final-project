@@ -65,7 +65,6 @@
 
 					<%
 					try {
-						String url = "jdbc:mysql://localhost:3306/springproject";
 						Class.forName("com.mysql.cj.jdbc.Driver");
 						Connection con = DriverManager.getConnection(UserController.databaseURL, UserController.databaseUser, UserController.databasePassword);
 						Statement stmt = con.createStatement();
