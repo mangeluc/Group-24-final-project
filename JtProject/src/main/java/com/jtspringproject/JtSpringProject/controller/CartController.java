@@ -152,7 +152,7 @@ public class CartController {
                 int productQuantity = cartItemsResultSet.getInt("product_quantity");
 
                 if (cartQuantity > productQuantity) {
-                    String errorMessage = "Checkout is not successful due to too many quantities of product ID " + productId;
+                    String errorMessage = "Checkout failed. Too many products selected. Product ID: " + productId;
                     errors.add(errorMessage);
                 }
             }
