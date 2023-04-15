@@ -22,7 +22,7 @@ public class UserController{
 	//IMPORTANT: make sure these three variables are correct before running
 	public static final String databaseURL = "jdbc:mysql://localhost:3306/flowers";
 	public static final String databaseUser = "root";
-	public static final String databasePassword = "L123@qwe";
+	public static final String databasePassword = "";
 
 	@GetMapping("/register")
 	public String registerUser()
@@ -43,6 +43,12 @@ public class UserController{
 	@GetMapping("/user/products")
 	public String getproduct(Model model) {
 		return "uproduct";
+	}
+	
+	@GetMapping("/ucart")
+	public String ucart()
+	{
+		return "ucart";
 	}
 	@RequestMapping(value = "newuserregister", method = RequestMethod.POST)
 	public String newUseRegister(@RequestParam("username") String username,@RequestParam("password") String password,@RequestParam("email") String email)
