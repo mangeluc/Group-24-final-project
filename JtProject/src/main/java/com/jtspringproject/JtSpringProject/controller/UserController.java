@@ -45,11 +45,6 @@ public class UserController{
 		return "uproduct";
 	}
 	
-	@GetMapping("/ucart")
-	public String ucart()
-	{
-		return "ucart";
-	}
 	@RequestMapping(value = "newuserregister", method = RequestMethod.POST)
 	public String newUseRegister(@RequestParam("username") String username,@RequestParam("password") String password,@RequestParam("email") String email)
 	{

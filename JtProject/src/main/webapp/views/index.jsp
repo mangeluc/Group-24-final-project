@@ -183,7 +183,7 @@ function addToCart(event, element) {
                     <i class="fa fa-star"></i>
                   </div><!--endrating-->
                   <p class="cr1">${product2.price}</s></p>
-              <a href="/user/products" class="btn btn-food">Add To Cart</a>
+              <button type = "button" id="add-to-cart-btn" class="btn btn-food add-to-cart" data-product-id="${product2.id}" onclick="addToCart(event, this)">Add To Cart</button>
             </div><!--enddetails-->
           </div><!--endcol-->
         </div><!--endrow-->
@@ -217,7 +217,7 @@ function addToCart(event, element) {
                     <i class="fa fa-star"></i>
                   </div><!--endrating-->
                   <p class="cr1">${product3.price}</s></p>
-              <a href="/user/products" class="btn btn-food">Add To Cart</a>
+              <button type = "button" id="add-to-cart-btn" class="btn btn-food add-to-cart" data-product-id="${product3.id}" onclick="addToCart(event, this)">Add To Cart</button>
             </div><!--enddetails-->
           </div><!--endcol-->
         </div><!--endrow-->
