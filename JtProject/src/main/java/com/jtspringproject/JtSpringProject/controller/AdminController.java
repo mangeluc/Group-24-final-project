@@ -29,7 +29,7 @@ public class AdminController {
 		return "userLogin";
 	}
 	
-	
+
 	
 	@GetMapping("/index")
 	public String index(Model model, HttpSession session) {

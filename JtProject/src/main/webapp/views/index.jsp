@@ -47,9 +47,17 @@ function addToCart(event, element) {
 	    }
 	  });
 	}
+</script>
 
-
-	
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            const alertElem = document.querySelector('.alert');
+            if (alertElem) {
+                alertElem.style.display = 'none';
+            }
+        }, 5000); // 5 seconds
+    });
 </script>
 
  
@@ -57,6 +65,12 @@ function addToCart(event, element) {
     
 </head>
 <body>
+<!-- Display success message -->
+<c:if test="${not empty successMessage}">
+    <div class="alert alert-success" role="alert">
+        ${successMessage}
+    </div>
+</c:if>
 
 <section class="wrapper">
         <div class="container-fostrap">
@@ -471,7 +485,7 @@ body,html{width:100%;height:100%;}
                                     </p>
                                 </div>
                                 <div class="card-read-more">
-                                    <a href="/contact" class="btn btn-link btn-block">
+                                    <a href="/ucart" class="btn btn-link btn-block">
                                         Go
                                     </a>
                                 </div>

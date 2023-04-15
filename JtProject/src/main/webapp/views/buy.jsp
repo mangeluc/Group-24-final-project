@@ -12,7 +12,7 @@
 					
 <div class="body-text">Write your name in the right fields. Also write your imaginary card number. By clicking CCV field card will turn.</div>
 
-  <form>
+  <form action="/checkout" method="post">
     <div class="form-container">
       <div class="personal-information">
         <h1>Payment Information</h1>
@@ -28,10 +28,10 @@
       
           <input id="input-field" type="text" name="streetaddress" required="required" autocomplete="on" maxlength="45" placeholder="Streed Address"/>
           <input id="column-left" type="text" name="city" required="required" autocomplete="on" maxlength="20" placeholder="City"/>
+          <input type="hidden" name="userId" value="${userId}">
           <input id="column-right" type="text" name="zipcode" required="required" autocomplete="on" pattern="[0-9]*" maxlength="5" placeholder="ZIP code"/>
-          <input id="input-field" type="email" name="email" required="required" autocomplete="on" maxlength="40" placeholder="Email"/>
           <input id="input-button" type="submit" value="Submit"/>
-        
+              
     </form>
   </div>
 <style>

@@ -1,8 +1,8 @@
 <%@page import="java.sql.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.text.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.jtspringproject.JtSpringProject.controller.UserController" %>
-
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -14,6 +14,16 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            const alertElem = document.querySelector('.alert');
+            if (alertElem) {
+                alertElem.style.display = 'none';
+            }
+        }, 5000); // 5 seconds
+    });
+</script>
 
 <title>Document</title>
 </head>
@@ -57,52 +67,54 @@
 				<th scope="col">Quantity</th>
 				<th scope="col">Price</th>
 				<th scope="col">Description</th>
-				<th scope="col">Buy</th>
+				<th scope="col">Update</th>
 				
 			</tr>
 			<tbody>
 				<tr>
 
 					<%
+					// Get the userId from the request scope
+					int userId = (Integer) request.getAttribute("userId");
+					
 					try {
-						String url = "jdbc:mysql://localhost:3306/springproject";
-						Class.forName("com.mysql.cj.jdbc.Driver");
-						Connection con = DriverManager.getConnection(UserController.databaseURL, UserController.databaseUser, UserController.databasePassword);
-						Statement stmt = con.createStatement();
-						Statement stmt2 = con.createStatement();
-						ResultSet rs = stmt.executeQuery("select * from products");
+					    String url = "jdbc:mysql://localhost:3306/springproject";
+					    Class.forName("com.mysql.cj.jdbc.Driver");
+					    Connection con = DriverManager.getConnection(UserController.databaseURL, UserController.databaseUser, UserController.databasePassword);
+					    Statement stmt = con.createStatement();
+					    ResultSet rs = stmt.executeQuery("SELECT p.*, c.quantity as cart_quantity FROM cart c JOIN products p ON c.product_id = p.id WHERE c.user_id = " + userId);
 					%>
 					<%
 					while (rs.next()) {
 					%>
+				    <td>
+				        <%= rs.getInt("id") %>
+				    </td>
+				    <td>
+				        <%= rs.getString("name") %>
+				    </td>
+				    <td>
+				        <%= rs.getFloat("rating") %>
+				    </td>
+				    <td><img src="/images/<%= rs.getString("image") %>" height="80px" width="120px">
 					<td>
-						<%= rs.getInt(1) %>
+					    <form action="/updateCart" method="post">
+					        <input type="hidden" name="productId" value="<%= rs.getInt("id") %>">
+					        <input type="hidden" name="userId" value="<%= userId %>">
+					        <input type="number" name="quantity" value="<%= rs.getInt("cart_quantity") %>" min="0" class="form-control">
 					</td>
-					<td>
-						<%= rs.getString("name") %>
-					</td>
-					<td>
-						<%= rs.getInt("rating") %>
-					</td>
-					<td><img src="/images/<%= rs.getString("image") %>" height="80px" width="120px">
-					<td>
-						<%= rs.getInt("quantity") %>
-					</td>
-					<td>
-						<%= rs.getInt("price") %>
-					</td>
-					<td>
-						<%= rs.getString("description") %>
-					</td>
+				    <td>
+				        <%= rs.getInt("price") %>
+				    </td>
+				    <td>
+				        <%= rs.getString("description") %>
+				    </td>
 
 					<td>
-					<form action="/buy" method="get">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
-  <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
-</svg>	<input type="hidden" name="id" value="<%=rs.getInt(1)%>">
-							<input type="submit" value="Buy" class="btn btn-info btn-lg">
-							
-					</form>
+					<td>
+					    <input type="submit" value="Update" class="btn btn-info btn-lg">
+					    </form>
+					</td>
 					</td>
 					<td>
 					
@@ -116,6 +128,20 @@
 
 			</tbody>
 		</table>
+		<form action="/payment" method="get">
+		    <input type="hidden" name="userId" value="${userId}">
+		    <button type="submit" class="btn btn-primary float-right">Checkout</button>
+		</form>
+	<!-- Display error messages -->
+		<c:if test="${not empty errors}">
+		    <div class="alert alert-danger" role="alert">
+		        <ul>
+		            <c:forEach items="${errors}" var="error">
+		                <li>${error}</li>
+		            </c:forEach>
+		        </ul>
+		    </div>
+		</c:if>
 		<%
 		} catch (Exception ex) {
 		out.println("Exception Occurred:: " + ex.getMessage());
@@ -138,8 +164,3 @@
 		crossorigin="anonymous"></script>
 </body>
 </html>
-
-<%@page import="java.sql.*"%>
-<%@page import="java.util.*"%>
-<%@page import="java.text.*"%>
-<%@ page import="com.jtspringproject.JtSpringProject.controller.UserController" %>
