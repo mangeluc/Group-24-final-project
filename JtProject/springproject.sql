@@ -10,6 +10,7 @@ SET time_zone = "+00:00";
 --
 -- Create the `flowers` database if it doesn't exist
 --
+DROP DATABASE if exists flowers;
 CREATE DATABASE IF NOT EXISTS `flowers`;
 USE `flowers`;
 
@@ -34,7 +35,8 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
-
+INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `enabled`, `email`) VALUES
+(2, 'admin', 'Adminpassword!', 'ROLE_ADMIN', 1, 'test@a.com');
 --
 -- Table structure for table `products`
 --
