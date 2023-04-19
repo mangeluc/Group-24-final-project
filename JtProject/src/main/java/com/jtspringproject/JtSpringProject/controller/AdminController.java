@@ -102,7 +102,7 @@ public class AdminController {
 	@RequestMapping(value = "loginvalidate", method = RequestMethod.POST)
 	public String adminlogin( @RequestParam("username") String username, @RequestParam("password") String pass,Model model) {
 		
-		if(username.equalsIgnoreCase("admin") && pass.equalsIgnoreCase("Johnsonlu351!")) {
+		if(username.equalsIgnoreCase("admin") && pass.equalsIgnoreCase("Adminpassword!")) {
 			adminlogcheck=1;
 			return "redirect:/adminhome";
 			}
