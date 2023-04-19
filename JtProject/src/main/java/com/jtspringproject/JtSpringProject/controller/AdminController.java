@@ -21,30 +21,26 @@ public class AdminController {
 	public static final String databasePassword = UserController.databasePassword;
 	
 	int adminlogcheck = 0;
-	String usernameforclass = "";
-	@RequestMapping(value = {"/","/logout"})
-	public String returnIndex() {
-		adminlogcheck =0;
-		usernameforclass = "";
-		return "userLogin";
+	
+	@RequestMapping(value = {"/logout"})
+	public String returnIndex(HttpSession session) {
+		session.removeAttribute("username");
+		session.removeAttribute("userId");
+		return "redirect:/";
 	}
 	
 
 	
-	@GetMapping("/index")
+	@GetMapping({"/index", "/"})
 	public String index(Model model, HttpSession session) {
 		String username = (String) session.getAttribute("username");
-		if(username == null)
-			return "userLogin";
-		else {
-			List<Product> products = new ArrayList<>();
-			Util.FillProducts(products);
-		    model.addAttribute("product1", products.get(0));
-		    model.addAttribute("product2", products.get(1));
-		    model.addAttribute("product3", products.get(2));
-			model.addAttribute("username", username);
-			return "index";
-		}
+		List<Product> products = new ArrayList<>();
+		Util.FillProducts(products);
+	    model.addAttribute("product1", products.get(0));
+	    model.addAttribute("product2", products.get(1));
+	    model.addAttribute("product3", products.get(2));
+		model.addAttribute("username", username);
+		return "index";
 			
 	}
 
@@ -318,14 +314,13 @@ public class AdminController {
 	
 	
 	@GetMapping("profileDisplay")
-	public String profileDisplay(Model model) {
+	public String profileDisplay(Model model, HttpSession session) {
 		String displayusername,displaypassword,displayemail,displayaddress;
 		try
 		{
-			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);
 			Statement stmt = con.createStatement();
-			ResultSet rst = stmt.executeQuery("select * from users where username = '"+usernameforclass+"';");
+			ResultSet rst = stmt.executeQuery("select * from users where username = '"+(String) session.getAttribute("username")+"';");
 			
 			if(rst.next())
 			{
@@ -365,7 +360,6 @@ public class AdminController {
 			pst.setString(4, address);
 			pst.setInt(5, userid);
 			int i = pst.executeUpdate();	
-			usernameforclass = username;
 		}
 		catch(Exception e)
 		{
