@@ -34,11 +34,23 @@ public class CartController {
 	public String usercart(Model model, HttpSession session) {
 	    if (session.getAttribute("userId") == null) {
 	        // Redirect to an appropriate page (e.g., login) if userId is not found in the session
-	        return "redirect:/login";
+	        return "redirect:/userloginvalidate";
 	    }
 		int userId = (int) session.getAttribute("userId");
 		model.addAttribute("userId", userId);
 		return "ucart";
+	}
+	
+	
+	@GetMapping("/order")
+	public String userorder(Model model, HttpSession session) {
+	    if (session.getAttribute("userId") == null) {
+	        // Redirect to an appropriate page (e.g., login) if userId is not found in the session
+	        return "redirect:/userloginvalidate";
+	    }
+		int userId = (int) session.getAttribute("userId");
+		model.addAttribute("userId", userId);
+		return "order";
 	}
 
     @PostMapping("/cart/update")
@@ -122,6 +134,57 @@ public class CartController {
         return "redirect:/ucart";
     }
     
+    @PostMapping("/updateRating")
+    public String updateRating(@RequestParam("userId") int userId,
+                             @RequestParam("productId") int productId,
+                             @RequestParam("rating") int rating) {
+        String databaseURL = UserController.databaseURL;
+        String databaseUser = UserController.databaseUser;
+        String databasePassword = UserController.databasePassword;
+
+        try (Connection con = DriverManager.getConnection(databaseURL, databaseUser, databasePassword)) {
+            PreparedStatement pstmt = null;
+
+            // 1. Get the current rating and rating_num
+            String currentRatingQuery = "SELECT rating, ratingNum FROM products WHERE id = ?";
+            pstmt = con.prepareStatement(currentRatingQuery);
+      
+            pstmt.setInt(1, productId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                float currentRating = rs.getFloat("rating");
+                int currentRatingNum = rs.getInt("ratingNum");
+
+                // 2. Calculate the new average rating
+                float newRating = ((currentRating * currentRatingNum) + rating) / (currentRatingNum + 1);
+
+                // 3. Update the rating and rating_num in the products table
+                String updateRatingQuery = "UPDATE products SET rating = ?, ratingNum = ? WHERE id = ?";
+                pstmt = con.prepareStatement(updateRatingQuery);
+                pstmt.setFloat(1, newRating);
+                pstmt.setInt(2, currentRatingNum + 1);
+                pstmt.setInt(3, productId);
+                pstmt.executeUpdate();
+
+                // 4. Update the rating in the order_history table
+                String updateOrderRatingQuery = "UPDATE order_history SET rating = ? WHERE user_id = ? AND product_id = ?";
+                pstmt = con.prepareStatement(updateOrderRatingQuery);
+                pstmt.setInt(1, rating);
+                pstmt.setInt(2, userId);
+                pstmt.setInt(3, productId);
+                pstmt.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "redirect:/error";
+        }
+
+        return "redirect:/order";
+    }
+
+    
     
     @GetMapping("/payment")
     public String payment(Model model, HttpSession session) {
@@ -182,6 +245,13 @@ public class CartController {
                     deleteCartItemStatement.setInt(1, userId);
                     deleteCartItemStatement.setInt(2, productId);
                     deleteCartItemStatement.executeUpdate();
+                    
+                    String insertOrderQuery = "INSERT INTO order_history (user_id, product_id, quantity) VALUES (?, ?, ?)";
+                    PreparedStatement insertOrderStatement = connection.prepareStatement(insertOrderQuery);
+                    insertOrderStatement.setInt(1, userId);
+                    insertOrderStatement.setInt(2, productId);
+                    insertOrderStatement.setInt(3, cartQuantity);
+                    insertOrderStatement.executeUpdate();
                 }
 
                 // Pass a success message to the next page (i.e., the index page)

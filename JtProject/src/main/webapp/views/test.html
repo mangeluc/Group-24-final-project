@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script>
+		function loadDoc() {
+		    var xhttp = new XMLHttpRequest();
+		    xhttp.onload = function() { 
+		        document.getElementById("demo").innerHTML = this.responseText;
+		    };
+		    xhttp.open("GET", "data:text/plain;charset=UTF-8,123", true);
+		    xhttp.send();
+		}
+		</script>
+	</head>
+	<body>
+		<div id="demo">
+			<h1>The Magic of AJAX</h1>
+			<button type="button" onclick="loadDoc()">Click To Be Amazed</button>
+		</div>
+	</body>
+</html>

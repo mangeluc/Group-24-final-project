@@ -22,7 +22,7 @@ public class UserController{
 	//IMPORTANT: make sure these three variables are correct before running
 	public static final String databaseURL = "jdbc:mysql://localhost:3306/flowers";
 	public static final String databaseUser = "root";
-	public static final String databasePassword = "";
+	public static final String databasePassword = "L123@qwe";
 
 	@GetMapping("/register")
 	public String registerUser()
