@@ -26,7 +26,18 @@
 </script>
 
 <title>Document</title>
+
+<style>
+	#submitButton{	
+		font-size: 15px;
+	}
+</style>
+
 </head>
+
+
+
+
 <body class="bg-light">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
@@ -110,9 +121,9 @@
 				        <%= rs.getString("description") %>
 				    </td>
 
+					
 					<td>
-					<td>
-					    <input type="submit" value="Update" class="btn btn-info btn-lg">
+					    <input type="submit" value="Update" class="btn btn-info btn-lg" id = "updateButton">
 					    </form>
 					</td>
 					</td>
@@ -130,7 +141,7 @@
 		</table>
 		<form action="/payment" method="get">
 		    <input type="hidden" name="userId" value="${userId}">
-		    <button type="submit" class="btn btn-primary float-right">Checkout</button>
+		    <button type="submit" class="btn btn-primary float-right" id = "checkoutButton">Checkout</button>
 		</form>
 	<!-- Display error messages -->
 		<c:if test="${not empty errors}">

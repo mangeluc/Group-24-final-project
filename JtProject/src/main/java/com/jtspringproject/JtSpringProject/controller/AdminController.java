@@ -98,7 +98,7 @@ public class AdminController {
 	@RequestMapping(value = "loginvalidate", method = RequestMethod.POST)
 	public String adminlogin( @RequestParam("username") String username, @RequestParam("password") String pass,Model model) {
 		
-		if(username.equalsIgnoreCase("admin") && pass.equalsIgnoreCase("123")) {
+		if(username.equalsIgnoreCase("admin") && pass.equalsIgnoreCase("Adminpassword!")) {
 			adminlogcheck=1;
 			return "redirect:/adminhome";
 			}
@@ -200,24 +200,15 @@ public class AdminController {
 			{
 			pid = rst.getInt(1);
 			pname = rst.getString(2);
-			pimage = rst.getString(3);
-			pcategory = rst.getInt(4);
-			pquantity = rst.getInt(5);
+			pdescription = rst.getString(3);
 			pprice =  rst.getInt(6);
-			pweight =  rst.getInt(7);
-			pdescription = rst.getString(8);
+			pquantity = rst.getInt(9);
+		
 			model.addAttribute("pid",pid);
 			model.addAttribute("pname",pname);
-			model.addAttribute("pimage",pimage);
-			ResultSet rst2 = stmt.executeQuery("select * from categories where categoryid = "+pcategory+";");
-			if(rst2.next())
-			{
-				model.addAttribute("pcategory",rst2.getString(2));
-			}
-			model.addAttribute("pquantity",pquantity);
-			model.addAttribute("pprice",pprice);
-			model.addAttribute("pweight",pweight);
 			model.addAttribute("pdescription",pdescription);
+			model.addAttribute("pprice",pprice);
+			model.addAttribute("pquantity",pquantity);
 			}
 		}
 		catch(Exception e)
@@ -226,8 +217,9 @@ public class AdminController {
 		}
 		return "productsUpdate";
 	}
+	
 	@RequestMapping(value = "admin/products/updateData",method=RequestMethod.POST)
-	public String updateproducttodb(@RequestParam("id") int id,@RequestParam("name") String name, @RequestParam("price") int price, @RequestParam("weight") int weight, @RequestParam("quantity") int quantity, @RequestParam("description") String description, @RequestParam("productImage") String picture ) 
+	public String updateproducttodb(@RequestParam("id") int id,@RequestParam("name") String name, @RequestParam("price") int price, @RequestParam("quantity") int quantity, @RequestParam("description") String description) 
 	
 	{
 		try
@@ -235,14 +227,12 @@ public class AdminController {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);
 			
-			PreparedStatement pst = con.prepareStatement("update products set name= ?,image = ?,quantity = ?, price = ?, weight = ?,description = ? where id = ?;");
+			PreparedStatement pst = con.prepareStatement("update products set name= ?, description = ?, price = ?, quantity = ? where id = ?;");
 			pst.setString(1, name);
-			pst.setString(2, picture);
-			pst.setInt(3, quantity);
-			pst.setInt(4, price);
-			pst.setInt(5, weight);
-			pst.setString(6, description);
-			pst.setInt(7, id);
+			pst.setString(2, description);
+			pst.setInt(3, price);
+			pst.setInt(4, quantity);
+			pst.setInt(5, id);
 			int i = pst.executeUpdate();			
 		}
 		catch(Exception e)

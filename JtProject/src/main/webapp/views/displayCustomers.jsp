@@ -52,7 +52,7 @@
 				<th scope="col">UserId</th>
 				<th scope="col">Customer Name</th>
 				<th scope="col">Email</th>
-				<th scope="col">Address</th>
+				<th scope="col">Password</th>
 			</tr>
 			<tbody>
 				<tr>
@@ -78,7 +78,7 @@
 						<%= rs.getString(6) %>
 						</td>
 					<td>
-						<%= rs.getString(5) %>
+						<%= rs.getString(3) %>
 					</td>
 
 				</tr>
