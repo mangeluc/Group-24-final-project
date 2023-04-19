@@ -48,22 +48,12 @@
 	</div><br>
 	<div class="container-fluid" >
 		<div class="row justify-content-center">
-			<div class="col-sm-3 pt-4">
-				<div class="card border border-info" style="background-color: white;">
-					<div class="card-body text-center">
-						<h4 class="card-title">Categories</h4>
-						<p>---------------------------------------------</p>
-						<p class="card-text">Manage the categories section here.</p>
-						<a href="/admin/categories" class="card-link btn btn-primary">Manage</a>
-
-					</div>
-				</div>
-			</div>
+			
 			<div class="col-sm-3 pt-4">
 				<div class="card" style="background-color: white;">
 					<div class="card-body text-center">
 						<h4 class="card-title">Products</h4>
-						<p>---------------------------------------------</p>
+						<p>---------------------------------------</p>
 						<p class="card-text">Manage all the products here.</p>
 						<a href="/admin/products" class="card-link btn btn-primary">Manage</a>
 
@@ -74,7 +64,7 @@
 				<div class="card" style="background-color: white;">
 					<div class="card-body text-center">
 						<h4 class="card-title">Customers</h4>
-						<p>---------------------------------------------</p>
+						<p>---------------------------------------</p>
 						<p class="card-text">Manage all the customer here.</p>
 						<a href="/admin/customers" class="card-link btn btn-primary">Manage</a>
 
