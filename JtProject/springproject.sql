@@ -110,5 +110,23 @@ CREATE TABLE `cart` (
 ALTER TABLE `cart`
   ADD CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
   ADD CONSTRAINT `fk_product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
+  
+-- Add table `order_history`
+CREATE TABLE `order_history` (
+  `order_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `rating` int(11) NOT NULL DEFAULT 5,
+  
+  PRIMARY KEY (`order_id`),
+  KEY `fk_order_user_id` (`user_id`),
+  KEY `fk_order_product_id` (`product_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Add constraints
+ALTER TABLE `order_history`
+  ADD CONSTRAINT `fk_order_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`),
+  ADD CONSTRAINT `fk_order_product_id` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 
 COMMIT;
