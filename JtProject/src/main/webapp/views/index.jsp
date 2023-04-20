@@ -34,8 +34,6 @@ function addToCart(event, element) {
 	    },
 	    contentType: 'application/x-www-form-urlencoded',
 	    success: function (response) {
-	      // Update the cart in the UI
-	      // You can customize this according to your requirements
 	      alert('Product added to cart successfully!');
 	    },
 	    error: function (xhr, textStatus, errorThrown) {
@@ -76,14 +74,7 @@ function addToCart(event, element) {
 <section class="wrapper">
         <div class="container-fostrap">
 <nav class="navbar navbar-expand-lg navbar-light" >
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img th:src="@{/images/logo.png}"  src="../static/images/logo.png" width="auto" height="40" class="d-inline-block align-top" alt=""/>
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-		
+    <div class="container-fluid">	
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <h4>Welcome ${ username } </h4>
 

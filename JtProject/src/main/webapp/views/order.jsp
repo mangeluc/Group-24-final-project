@@ -30,21 +30,10 @@
 <body class="bg-light">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#"> <img
-				th:src="@{/images/logo.png}" src="../static/images/logo.png"
-				width="auto" height="40" class="d-inline-block align-top" alt="" />
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto"></ul>
 				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="/adminhome">Home
+					<li class="nav-item active"><a class="nav-link" href="/index">Home
 							Page</a></li>
 					<li class="nav-item active"><a class="nav-link" href="/logout">Logout</a>
 					</li>
@@ -82,7 +71,7 @@
 					    Class.forName("com.mysql.cj.jdbc.Driver");
 					    Connection con = DriverManager.getConnection(UserController.databaseURL, UserController.databaseUser, UserController.databasePassword);
 					    Statement stmt = con.createStatement();
-					    ResultSet rs = stmt.executeQuery("SELECT p.*, o.rating as order_rating, o.quantity as order_quantity FROM order_history o JOIN products p ON o.product_id = p.id WHERE o.user_id = " + userId);
+					    ResultSet rs = stmt.executeQuery("SELECT p.*, o.order_id, o.rating as order_rating, o.quantity as order_quantity FROM order_history o JOIN products p ON o.product_id = p.id WHERE o.user_id = " + userId);
 					%>
 					<%
 					while (rs.next()) {
@@ -97,7 +86,9 @@
 					    <form action="/updateRating" method="post">
 					        <input type="hidden" name="productId" value="<%= rs.getInt("id") %>">
 					        <input type="hidden" name="userId" value="<%= userId %>">
-					        <input type="number" name="rating" value="<%= rs.getInt("order_rating") %>" min="0" class="form-control">
+					        <input type="hidden" name="orderId" value="<%= rs.getInt("order_id") %>">
+					        <input type="number" name="rating" value="<%= rs.getInt("order_rating") > 0 ? rs.getInt("order_rating") : "" %>" min="0" max="5" class="form-control" required>
+
 					</td>
 				    <td><img src="/images/<%= rs.getString("image") %>" height="80px" width="120px">
 					<td>
@@ -128,19 +119,16 @@
 
 			</tbody>
 		</table>
-		<form action="/payment" method="get">
-		    <input type="hidden" name="userId" value="${userId}">
-		    <button type="submit" class="btn btn-primary float-right">Checkout</button>
-		</form>
 	<!-- Display error messages -->
-		<c:if test="${not empty errors}">
-		    <div class="alert alert-danger" role="alert">
-		        <ul>
-		            <c:forEach items="${errors}" var="error">
-		                <li>${error}</li>
-		            </c:forEach>
-		        </ul>
+		<c:if test="${not empty ratingSuccess}">
+		    <div class="alert alert-success" role="alert">
+		        ${ratingSuccess}
 		    </div>
+		</c:if>
+		<c:if test="${not empty ratingError}">
+	    <div class="alert alert-danger" role="alert">
+	        ${ratingError}
+	    </div>
 		</c:if>
 		<%
 		} catch (Exception ex) {

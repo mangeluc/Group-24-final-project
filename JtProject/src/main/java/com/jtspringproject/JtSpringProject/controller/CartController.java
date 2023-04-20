@@ -137,7 +137,9 @@ public class CartController {
     @PostMapping("/updateRating")
     public String updateRating(@RequestParam("userId") int userId,
                              @RequestParam("productId") int productId,
-                             @RequestParam("rating") int rating) {
+                             @RequestParam("rating") int rating,
+                             @RequestParam("orderId") int orderId,
+                             RedirectAttributes redirectAttributes) {
         String databaseURL = UserController.databaseURL;
         String databaseUser = UserController.databaseUser;
         String databasePassword = UserController.databasePassword;
@@ -145,34 +147,52 @@ public class CartController {
         try (Connection con = DriverManager.getConnection(databaseURL, databaseUser, databasePassword)) {
             PreparedStatement pstmt = null;
 
-            // 1. Get the current rating and rating_num
-            String currentRatingQuery = "SELECT rating, ratingNum FROM products WHERE id = ?";
-            pstmt = con.prepareStatement(currentRatingQuery);
-      
-            pstmt.setInt(1, productId);
-            ResultSet rs = pstmt.executeQuery();
+            // 1. Get the current rating in the order_history table
+            String currentOrderRatingQuery = "SELECT rating FROM order_history WHERE order_id = ?";
+            pstmt = con.prepareStatement(currentOrderRatingQuery);
+            pstmt.setInt(1, orderId);
+            ResultSet orderRatingRs = pstmt.executeQuery();
 
-            if (rs.next()) {
-                float currentRating = rs.getFloat("rating");
-                int currentRatingNum = rs.getInt("ratingNum");
+            if (orderRatingRs.next()) {
+                int currentOrderRating = orderRatingRs.getInt("rating");
 
-                // 2. Calculate the new average rating
-                float newRating = ((currentRating * currentRatingNum) + rating) / (currentRatingNum + 1);
+                if (currentOrderRating == -1) {
+                    // 2. Get the current rating and rating_num from the products table
+                    String currentRatingQuery = "SELECT rating, ratingNum FROM products WHERE id = ?";
+                    pstmt = con.prepareStatement(currentRatingQuery);
 
-                // 3. Update the rating and rating_num in the products table
-                String updateRatingQuery = "UPDATE products SET rating = ?, ratingNum = ? WHERE id = ?";
-                pstmt = con.prepareStatement(updateRatingQuery);
-                pstmt.setFloat(1, newRating);
-                pstmt.setInt(2, currentRatingNum + 1);
-                pstmt.setInt(3, productId);
-                pstmt.executeUpdate();
+                    pstmt.setInt(1, productId);
+                    ResultSet productRatingRs = pstmt.executeQuery();
 
-                // 4. Update the rating in the order_history table
-                String updateOrderRatingQuery = "UPDATE order_history SET rating = ? WHERE user_id = ? AND product_id = ?";
+                    if (productRatingRs.next()) {
+                        float currentRating = productRatingRs.getFloat("rating");
+                        int currentRatingNum = productRatingRs.getInt("ratingNum");
+
+                        // 3. Calculate the new average rating
+                        float newRating = ((currentRating * currentRatingNum) + rating) / (currentRatingNum + 1);
+
+                        // 4. Update the rating and rating_num in the products table
+                        String updateRatingQuery = "UPDATE products SET rating = ?, ratingNum = ? WHERE id = ?";
+                        pstmt = con.prepareStatement(updateRatingQuery);
+                        pstmt.setFloat(1, newRating);
+                        pstmt.setInt(2, currentRatingNum + 1);
+                        pstmt.setInt(3, productId);
+                        pstmt.executeUpdate();
+                    }
+                }
+                else
+                {
+                	redirectAttributes.addFlashAttribute("ratingError", "You have already rated this product.");
+                	return "redirect:/order";
+                }
+                	
+          
+
+                // 5. Update the rating in the order_history table
+                String updateOrderRatingQuery = "UPDATE order_history SET rating = ? WHERE order_id = ?";
                 pstmt = con.prepareStatement(updateOrderRatingQuery);
                 pstmt.setInt(1, rating);
-                pstmt.setInt(2, userId);
-                pstmt.setInt(3, productId);
+                pstmt.setInt(2, orderId);
                 pstmt.executeUpdate();
             }
 
@@ -180,7 +200,7 @@ public class CartController {
             e.printStackTrace();
             return "redirect:/error";
         }
-
+        redirectAttributes.addFlashAttribute("ratingSuccess", "Rating has been updated successfully.");
         return "redirect:/order";
     }
 

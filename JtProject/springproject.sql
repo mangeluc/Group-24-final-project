@@ -31,12 +31,13 @@ CREATE TABLE `users` (
   `role` varchar(45) NOT NULL,
   `enabled` tinyint(4) DEFAULT NULL,
   `email` varchar(110) NOT NULL,
+  `address` text NOT NULL DEFAULT '',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 INSERT INTO `users` (`user_id`, `username`, `password`, `role`, `enabled`, `email`) VALUES
-(2, 'admin', 'Adminpassword!', 'ROLE_ADMIN', 1, 'test@a.com');
+(0, 'admin', '123', 'ROLE_ADMIN', 1, 'test@a.com');
 --
 -- Table structure for table `products`
 --
@@ -120,6 +121,9 @@ CREATE TABLE `order_history` (
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
   `rating` int(11) NOT NULL DEFAULT 5,
+  `rated` boolean NOT NULL DEFAULT false,
+ 
+  
   
   PRIMARY KEY (`order_id`),
   KEY `fk_order_user_id` (`user_id`),

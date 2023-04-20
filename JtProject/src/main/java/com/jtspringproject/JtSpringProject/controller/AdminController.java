@@ -19,181 +19,40 @@ public class AdminController {
 	public static final String databaseURL = UserController.databaseURL;
 	public static final String databaseUser = UserController.databaseUser;
 	public static final String databasePassword = UserController.databasePassword;
-	
-	int adminlogcheck = 0;
-	
-	@RequestMapping(value = {"/logout"})
-	public String returnIndex(HttpSession session) {
-		session.removeAttribute("username");
-		session.removeAttribute("userId");
-		return "redirect:/";
-	}
-	
 
-	
-	@GetMapping({"/index", "/"})
-	public String index(Model model, HttpSession session) {
-		String username = (String) session.getAttribute("username");
-		List<Product> products = new ArrayList<>();
-		Util.FillProducts(products);
-	    model.addAttribute("product1", products.get(0));
-	    model.addAttribute("product2", products.get(1));
-	    model.addAttribute("product3", products.get(2));
-		model.addAttribute("username", username);
-		return "index";
-			
-	}
-
-	
-	@GetMapping("/userloginvalidate")
-	public String userlog(Model model) {
-		
-		return "userLogin";
-	}
-	@PostMapping("/userloginvalidate")
-	public String userlogin( @RequestParam("username") String username, @RequestParam("password") String pass, HttpSession session, Model model) {
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);
-			Statement stmt = con.createStatement();
-			ResultSet rst = stmt.executeQuery("select * from users where username = '"+username+"' and password = '"+ pass+"' ;");
-			if(rst.next()) {
-				session.setAttribute("username", username);
-				session.setAttribute("userId", rst.getInt("user_id"));
-				return "redirect:/index";
-				}
-			else {
-				model.addAttribute("message", "Invalid Username or Password");
-				return "userLogin";
-			}
-			
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception:"+e);
-		}
-		return "userLogin";
-			
-	}
-	
-	
-	@GetMapping("/admin")
-	public String adminlogin(Model model) {
-		
-		return "adminlogin";
-	}
-	@GetMapping("/adminhome")
-	public String adminHome(Model model) {
-		if(adminlogcheck!=0)
-			return "adminHome";
-		else
-			return "redirect:/admin";
-	}
-	@GetMapping("/loginvalidate")
-	public String adminlog(Model model) {
-		
-		return "adminlogin";
-	}
-	@RequestMapping(value = "loginvalidate", method = RequestMethod.POST)
-	public String adminlogin( @RequestParam("username") String username, @RequestParam("password") String pass,Model model) {
-		
-		if(username.equalsIgnoreCase("admin") && pass.equalsIgnoreCase("Adminpassword!")) {
-			adminlogcheck=1;
-			return "redirect:/adminhome";
-			}
-		else {
-			model.addAttribute("message", "Invalid Username or Password");
-			return "adminlogin";
-		}
-	}
-	@GetMapping("/admin/categories")
-	public String getcategory() {
-		return "categories";
-	}
-	@RequestMapping(value = "admin/sendcategory",method = RequestMethod.GET)
-	public String addcategorytodb(@RequestParam("categoryname") String catname)
-	{
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);
-			Statement stmt = con.createStatement();
-			
-			PreparedStatement pst = con.prepareStatement("insert into categories(name) values(?);");
-			pst.setString(1,catname);
-			int i = pst.executeUpdate();
-			
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception:"+e);
-		}
-		return "redirect:/admin/categories";
-	}
-	
-	@GetMapping("/admin/categories/delete")
-	public String removeCategoryDb(@RequestParam("id") int id)
-	{
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);
-			Statement stmt = con.createStatement();
-			
-			PreparedStatement pst = con.prepareStatement("delete from categories where categoryid = ? ;");
-			pst.setInt(1, id);
-			int i = pst.executeUpdate();
-			
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception:"+e);
-		}
-		return "redirect:/admin/categories";
-	}
-	
-	@GetMapping("/admin/categories/update")
-	public String updateCategoryDb(@RequestParam("categoryid") int id, @RequestParam("categoryname") String categoryname)
-	{
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);
-			Statement stmt = con.createStatement();
-			
-			PreparedStatement pst = con.prepareStatement("update categories set name = ? where categoryid = ?");
-			pst.setString(1, categoryname);
-			pst.setInt(2, id);
-			int i = pst.executeUpdate();
-			
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception:"+e);
-		}
-		return "redirect:/admin/categories";
-	}
 
 	@GetMapping("/admin/products")
-	public String getproduct(Model model) {
+	public String getproduct(HttpSession session) {
+		if(!"ROLE_ADMIN".equals(session.getAttribute("role")))
+		{
+			return "redirect:/userloginvalidate";
+		}
 		return "products";
 	}
-	@GetMapping("/admin/products/add")
-	public String addproduct(Model model) {
-		return "productsAdd";
+	
+	
+	@GetMapping("/adminhome")
+	public String getadminhome(HttpSession session) {
+		if(!"ROLE_ADMIN".equals(session.getAttribute("role")))
+		{
+			return "redirect:/userloginvalidate";
+		}
+		return "adminHome";
 	}
+	
 
 	@GetMapping("/admin/products/update")
-	public String updateproduct(@RequestParam("pid") int id,Model model) {
-		String pname,pdescription,pimage;
-		int pid,pprice,pweight,pquantity,pcategory;
+	public String updateproduct(@RequestParam("pid") int id,Model model, HttpSession session) {
+		if(!"ROLE_ADMIN".equals(session.getAttribute("role")))
+		{
+			return "redirect:/userloginvalidate";
+		}	
+		String pname,pdescription;
+		int pid,pprice,pquantity;
 		try
 		{
-			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);
 			Statement stmt = con.createStatement();
-			Statement stmt2 = con.createStatement();
 			ResultSet rst = stmt.executeQuery("select * from products where id = "+id+";");
 			
 			if(rst.next())
@@ -224,7 +83,6 @@ public class AdminController {
 	{
 		try
 		{
-			Class.forName("com.mysql.jdbc.Driver");
 			Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);
 			
 			PreparedStatement pst = con.prepareStatement("update products set name= ?, description = ?, price = ?, quantity = ? where id = ?;");
@@ -243,14 +101,15 @@ public class AdminController {
 	}
 	
 	@GetMapping("/admin/products/delete")
-	public String removeProductDb(@RequestParam("id") int id)
+	public String removeProductDb(@RequestParam("id") int id, HttpSession session)
 	{
+		if(!"ROLE_ADMIN".equals(session.getAttribute("role")))
+		{
+			return "redirect:/userloginvalidate";
+		}
 		try
 		{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);
-			
-			
+			Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);	
 			PreparedStatement pst = con.prepareStatement("delete from products where id = ? ;");
 			pst.setInt(1, id);
 			int i = pst.executeUpdate();
@@ -263,99 +122,16 @@ public class AdminController {
 		return "redirect:/admin/products";
 	}
 	
-	@PostMapping("/admin/products")
-	public String postproduct() {
-		return "redirect:/admin/categories";
-	}
-	@RequestMapping(value = "admin/products/sendData",method=RequestMethod.POST)
-	public String addproducttodb(@RequestParam("name") String name, @RequestParam("categoryid") String catid, @RequestParam("price") int price, @RequestParam("weight") int weight, @RequestParam("quantity") int quantity, @RequestParam("description") String description, @RequestParam("productImage") String picture ) {
-		
-		try
-		{
-			Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);
-			Statement stmt = con.createStatement();
-			ResultSet rs = stmt.executeQuery("select * from categories where name = '"+catid+"';");
-			if(rs.next())
-			{
-			int categoryid = rs.getInt(1);
-			
-			PreparedStatement pst = con.prepareStatement("insert into products(name,image,categoryid,quantity,price,weight,description) values(?,?,?,?,?,?,?);");
-			pst.setString(1,name);
-			pst.setString(2, picture);
-			pst.setInt(3, categoryid);
-			pst.setInt(4, quantity);
-			pst.setInt(5, price);
-			pst.setInt(6, weight);
-			pst.setString(7, description);
-			int i = pst.executeUpdate();
-			}
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception:"+e);
-		}
-		return "redirect:/admin/products";
-	}
 	
 	@GetMapping("/admin/customers")
-	public String getCustomerDetail() {
+	public String getCustomerDetail(HttpSession session) {
+		if(!"ROLE_ADMIN".equals(session.getAttribute("role")))
+		{
+			return "redirect:/userloginvalidate";
+		}
 		return "displayCustomers";
 	}
 	
-	
-	@GetMapping("profileDisplay")
-	public String profileDisplay(Model model, HttpSession session) {
-		String displayusername,displaypassword,displayemail,displayaddress;
-		try
-		{
-			Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);
-			Statement stmt = con.createStatement();
-			ResultSet rst = stmt.executeQuery("select * from users where username = '"+(String) session.getAttribute("username")+"';");
-			
-			if(rst.next())
-			{
-			int userid = rst.getInt(1);
-			displayusername = rst.getString(2);
-			displayemail = rst.getString(3);
-			displaypassword = rst.getString(4);
-			displayaddress = rst.getString(5);
-			model.addAttribute("userid",userid);
-			model.addAttribute("username",displayusername);
-			model.addAttribute("email",displayemail);
-			model.addAttribute("password",displaypassword);
-			model.addAttribute("address",displayaddress);
-			}
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception:"+e);
-		}
-		System.out.println("Hello");
-		return "updateProfile";
-	}
-	
-	@RequestMapping(value = "updateuser",method=RequestMethod.POST)
-	public String updateUserProfile(@RequestParam("userid") int userid,@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("address") String address) 
-	
-	{
-		try
-		{
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);
-			
-			PreparedStatement pst = con.prepareStatement("update users set username= ?,email = ?,password= ?, address= ? where uid = ?;");
-			pst.setString(1, username);
-			pst.setString(2, email);
-			pst.setString(3, password);
-			pst.setString(4, address);
-			pst.setInt(5, userid);
-			int i = pst.executeUpdate();	
-		}
-		catch(Exception e)
-		{
-			System.out.println("Exception:"+e);
-		}
-		return "redirect:/index";
-	}
+
 
 }

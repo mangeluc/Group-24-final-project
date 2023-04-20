@@ -55,17 +55,6 @@ function addToCart(event, element) {
 <body class="bg-light">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#"> <img
-				th:src="@{/images/logo.png}" src="../static/images/logo.png"
-				width="auto" height="40" class="d-inline-block align-top" alt="" />
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse"
-				data-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto"></ul>
 				<ul class="navbar-nav">
@@ -117,7 +106,7 @@ function addToCart(event, element) {
 						<%= rs.getString("name") %>
 					</td>
 					<td>
-						<%= rs.getInt("rating") %>
+						<%= rs.getFloat("rating") %>
 					</td>
 					<td><img src="/images/<%= rs.getString("image") %>" height="80px" width="120px">
 					<td>
