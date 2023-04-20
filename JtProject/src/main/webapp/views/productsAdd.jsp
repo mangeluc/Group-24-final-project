@@ -17,8 +17,18 @@
 	crossorigin="anonymous">
 <title>Document</title>
 </head>
+
+<style>
+	#submitButton{
+		margin-top: 20px;
+	}
+	#addForm{
+		margin-bottom: 5px;
+	}
+</style>
+
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id = "addForm">
 		<div class="container-fluid">
 			<a class="navbar-brand" href="#"> <img
 				th:src="@{/images/logo.png}" src="../static/images/logo.png"
@@ -44,7 +54,7 @@
 			</div>
 		</div>
 	</nav><br>
-	<div class="jumbotron container border border-info">
+	/<div class="jumbotron container border border-info">
 		<h3>Add a new Product</h3>
 		<form action="sendData" method="post">
 			<div class="row">
@@ -75,21 +85,7 @@
 						<input type="text" class="form-control border border-warning" required name="name" placeholder="Enter name">
 					</div>
 					
-					<div class="form-group">
-					
-						<label for="category">Select Category</label> 
-						<select class="form-control border border-warning" name="categoryid" required>
-							<% 
-							rs = stmt.executeQuery("select * from categories");
-							while(rs.next())
-							{
-								%>
-								<option ><%= rs.getString(2) %></option>
-								<%	
-							}
-							%>
-						</select>
-					</div>
+				
 					<%
 						} catch (Exception e) {
 						System.out.println("Exception: " + e);
@@ -99,10 +95,7 @@
 						<label for="price">Price</label> 
 						<input type="number" class="form-control border border-warning" required name="price" min="1" placeholder="Price">
 					</div>
-					<div class="form-group">
-						<label for="weight">Weight in grams</label> 
-						<input type="number" class="form-control border border-warning" required name="weight" min="1" placeholder="Weight">
-					</div>
+					
 					<div class="form-group">
 						<label for="weight">Available Quantity</label> 
 						<input type="number" class="form-control border border-warning" required name="quantity" min="1" placeholder="Quantity">
@@ -115,19 +108,25 @@
 				<div class="form-group">
 						<label for="description">Product Description</label>
 						<textarea class="form-control border border-warning" rows="4" name="description" placeholder="Product Details" value= "no product details"></textarea>
-					</div>
+				</div>
+				
+				<div class="form-group">
+						<label for="keywords">Product Keywords</label>
+						<textarea class="form-control border border-warning" rows="4" name="keywords" placeholder="Product keywords" value= "no product keywords"></textarea>
+				</div>
+				
 					<p>Product Image</p>
 					<div class="custom-file">
 						<input type="file" class="custom-file-input" name="productImage" accept="image/jpeg, image/png" id="productImage" onchange="loadfile(event)" /> 
 						<label class="custom-file-label border border-warning" for="productImage">Choose file</label>
 						
 					</div>
-					<div class="form-group">
+					<!-- <div class="form-group">
 						<img src="Product Images/one.jpg" alt="Hello" id="imgPreview" height="100px" width="100px"
 							style="margin-top: 20px" >
-					</div>
+					</div> -->
 					<input type="hidden" name="imgName">
-					<input type="submit" class="btn btn-primary">
+					<input type="submit" class="btn btn-primary" id = "submitButton">
 				</div>
 			</div>
 		</form>

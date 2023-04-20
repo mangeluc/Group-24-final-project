@@ -51,6 +51,13 @@ function addToCart(event, element) {
 </script>
 
 <title>Document</title>
+
+<style>
+	#descripTD{
+		width: 500px;
+	}
+</style>
+
 </head>
 <body class="bg-light">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -119,14 +126,14 @@ function addToCart(event, element) {
 					<td>
 						<%= rs.getInt("rating") %>
 					</td>
-					<td><img src="/images/<%= rs.getString("image") %>" height="80px" width="120px">
+					<td><img src="/images/<%= rs.getString("image") %>" height="130px" width="120px">
 					<td>
 						<%= rs.getInt("quantity") %>
 					</td>
 					<td>
 						<%= rs.getInt("price") %>
 					</td>
-					<td>
+					<td id = "descripTD">
 						<%= rs.getString("description") %>
 					</td>
 
