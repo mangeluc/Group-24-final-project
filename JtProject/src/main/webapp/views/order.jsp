@@ -1,8 +1,8 @@
 <%@page import="java.sql.*"%>
 <%@page import="java.util.*"%>
 <%@page import="java.text.*"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.jtspringproject.JtSpringProject.controller.UserController" %>
-
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -10,54 +10,22 @@
 <meta name="viewport"
 	content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
-
 <script>
-function addToCart(event, element) {
-	  event.preventDefault();
-
-	  const productId = $(element).data('product-id');
-
-	  console.log("Product ID:", productId); // Check the value of productId
-
-	  console.log("jQuery is loaded and working");
-
-	  $.ajax({
-	    type: 'POST',
-	    url: '/cart/update',
-	    data: {
-	      'productId': productId
-	    },
-	    contentType: 'application/x-www-form-urlencoded',
-	    success: function (response) {
-	      // Update the cart in the UI
-	      // You can customize this according to your requirements
-	      alert('Product added to cart successfully!');
-	    },
-	    error: function (xhr, textStatus, errorThrown) {
-	      // Log the error information
-	      console.log(xhr);
-	      console.log(textStatus);
-	      console.log(errorThrown);
-
-	      alert('Failed to add product to cart. Please login first.');
-	    }
-	  });
-	}
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            const alertElem = document.querySelector('.alert');
+            if (alertElem) {
+                alertElem.style.display = 'none';
+            }
+        }, 5000); // 5 seconds
+    });
 </script>
 
 <title>Document</title>
-
-<style>
-	#descripTD{
-		width: 500px;
-	}
-</style>
-
 </head>
 <body class="bg-light">
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -76,7 +44,7 @@ function addToCart(event, element) {
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto"></ul>
 				<ul class="navbar-nav">
-					<li class="nav-item active"><a class="nav-link" href="/index">Home
+					<li class="nav-item active"><a class="nav-link" href="/adminhome">Home
 							Page</a></li>
 					<li class="nav-item active"><a class="nav-link" href="/logout">Logout</a>
 					</li>
@@ -99,47 +67,54 @@ function addToCart(event, element) {
 				<th scope="col">Quantity</th>
 				<th scope="col">Price</th>
 				<th scope="col">Description</th>
-				<th scope="col">Add To Cart</th>
+				<th scope="col">Update</th>
 				
 			</tr>
 			<tbody>
 				<tr>
 
 					<%
+					// Get the userId from the request scope
+					int userId = (Integer) request.getAttribute("userId");
+					
 					try {
-						String url = "jdbc:mysql://localhost:3306/springproject";
-						Class.forName("com.mysql.cj.jdbc.Driver");
-						Connection con = DriverManager.getConnection(UserController.databaseURL, UserController.databaseUser, UserController.databasePassword);
-						Statement stmt = con.createStatement();
-						Statement stmt2 = con.createStatement();
-						ResultSet rs = stmt.executeQuery("select * from products");
+					    String url = "jdbc:mysql://localhost:3306/springproject";
+					    Class.forName("com.mysql.cj.jdbc.Driver");
+					    Connection con = DriverManager.getConnection(UserController.databaseURL, UserController.databaseUser, UserController.databasePassword);
+					    Statement stmt = con.createStatement();
+					    ResultSet rs = stmt.executeQuery("SELECT p.*, o.rating as order_rating, o.quantity as order_quantity FROM order_history o JOIN products p ON o.product_id = p.id WHERE o.user_id = " + userId);
 					%>
 					<%
 					while (rs.next()) {
 					%>
+				    <td>
+				        <%= rs.getInt("id") %>
+				    </td>
+				    <td>
+				        <%= rs.getString("name") %>
+				    </td>
 					<td>
-						<%= rs.getInt(1) %>
+					    <form action="/updateRating" method="post">
+					        <input type="hidden" name="productId" value="<%= rs.getInt("id") %>">
+					        <input type="hidden" name="userId" value="<%= userId %>">
+					        <input type="number" name="rating" value="<%= rs.getInt("order_rating") %>" min="0" class="form-control">
 					</td>
+				    <td><img src="/images/<%= rs.getString("image") %>" height="80px" width="120px">
 					<td>
-						<%= rs.getString("name") %>
+						<%= rs.getInt("order_quantity") %>
 					</td>
-					<td>
-						<%= rs.getInt("rating") %>
-					</td>
-					<td><img src="/images/<%= rs.getString("image") %>" height="130px" width="120px">
-					<td>
-						<%= rs.getInt("quantity") %>
-					</td>
-					<td>
-						<%= rs.getInt("price") %>
-					</td>
-					<td id = "descripTD">
-						<%= rs.getString("description") %>
-					</td>
+				    <td>
+				        <%= rs.getInt("price") %>
+				    </td>
+				    <td>
+				        <%= rs.getString("description") %>
+				    </td>
 
 					<td>
-					<button type = "button" class="btn btn-info btn-lg" data-product-id=<%= rs.getInt(1) %> onclick="addToCart(event, this)">Add To Cart</button>
-
+					<td>
+					    <input type="submit" value="Update" class="btn btn-info btn-lg">
+					    </form>
+					</td>
 					</td>
 					<td>
 					
@@ -153,6 +128,20 @@ function addToCart(event, element) {
 
 			</tbody>
 		</table>
+		<form action="/payment" method="get">
+		    <input type="hidden" name="userId" value="${userId}">
+		    <button type="submit" class="btn btn-primary float-right">Checkout</button>
+		</form>
+	<!-- Display error messages -->
+		<c:if test="${not empty errors}">
+		    <div class="alert alert-danger" role="alert">
+		        <ul>
+		            <c:forEach items="${errors}" var="error">
+		                <li>${error}</li>
+		            </c:forEach>
+		        </ul>
+		    </div>
+		</c:if>
 		<%
 		} catch (Exception ex) {
 		out.println("Exception Occurred:: " + ex.getMessage());
@@ -162,6 +151,9 @@ function addToCart(event, element) {
 
 
 
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+		crossorigin="anonymous"></script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
 		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
@@ -172,8 +164,3 @@ function addToCart(event, element) {
 		crossorigin="anonymous"></script>
 </body>
 </html>
-
-<%@page import="java.sql.*"%>
-<%@page import="java.util.*"%>
-<%@page import="java.text.*"%>
-<%@ page import="com.jtspringproject.JtSpringProject.controller.UserController" %>
