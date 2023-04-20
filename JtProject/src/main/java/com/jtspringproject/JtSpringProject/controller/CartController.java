@@ -170,7 +170,8 @@ public class CartController {
 
                         // 3. Calculate the new average rating
                         float newRating = ((currentRating * currentRatingNum) + rating) / (currentRatingNum + 1);
-
+                        newRating = (float)(Math.round((newRating) * 10) / 10.0);
+                        
                         // 4. Update the rating and rating_num in the products table
                         String updateRatingQuery = "UPDATE products SET rating = ?, ratingNum = ? WHERE id = ?";
                         pstmt = con.prepareStatement(updateRatingQuery);
