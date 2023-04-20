@@ -28,22 +28,9 @@
 <title>Document</title>
 
 <style>
-	#updateButton{	
-		font-size: 12px;
-		height: 40px;
-		width: 90px;
-		display: flex;
-		
+	#submitButton{	
+		font-size: 15px;
 	}
-	
-	#checkoutButton{
-		font-size: 12px;
-		margin-right: 33px;
-		height: 40px;
-		width: 90px;
-	}
-
-	
 </style>
 
 </head>
@@ -120,7 +107,7 @@
 				    <td>
 				        <%= rs.getFloat("rating") %>
 				    </td>
-				    <td><img src="/images/<%= rs.getString("image") %>" height="130px" width="120px">
+				    <td><img src="/images/<%= rs.getString("image") %>" height="80px" width="120px">
 					<td>
 					    <form action="/updateCart" method="post">
 					        <input type="hidden" name="productId" value="<%= rs.getInt("id") %>">
@@ -135,10 +122,8 @@
 				    </td>
 
 					
-					<td style="display: flex; align-items: center; justify-centent: center; height: 130px">
-						<div style="margin: auto;">
-					    	<input type="submit" value="Update" class="btn btn-info btn-lg" id = "updateButton">
-					    </div>
+					<td>
+					    <input type="submit" value="Update" class="btn btn-info btn-lg" id = "updateButton">
 					    </form>
 					</td>
 					</td>
