@@ -120,10 +120,7 @@ CREATE TABLE `order_history` (
   `user_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `rating` int(11) NOT NULL DEFAULT 5,
-  `rated` boolean NOT NULL DEFAULT false,
- 
-  
+  `rating` int(11) NOT NULL DEFAULT -1,
   
   PRIMARY KEY (`order_id`),
   KEY `fk_order_user_id` (`user_id`),
