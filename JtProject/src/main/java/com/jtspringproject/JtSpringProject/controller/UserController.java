@@ -196,7 +196,6 @@ public class UserController{
 		{
 			System.out.println("Exception:"+e);
 		}
-		System.out.println("Hello");
 		return "updateProfile";
 	}
 	

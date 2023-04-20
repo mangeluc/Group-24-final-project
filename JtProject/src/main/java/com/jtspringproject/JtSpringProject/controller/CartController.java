@@ -59,7 +59,6 @@ public class CartController {
         try {
             // Get the current user's ID from the session
             int userId = (int) session.getAttribute("userId");
-            System.out.println(111);
 
             // Establish a database connection
             Connection conn = DriverManager.getConnection(databaseURL, databaseUser, databasePassword);
