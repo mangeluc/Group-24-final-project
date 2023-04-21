@@ -50,6 +50,25 @@ function addToCart(event, element) {
 	}
 </script>
 
+<style>
+.lastCol{	
+	width: 200px;
+	margin-right: 5px;
+	height: 130px;
+	text-align: center;
+}
+#addCart{
+	font-size: 15px;
+  	display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 35px;
+}
+#desCol{
+	width: 600px;
+}
+</style>
+
 <title>Document</title>
 </head>
 <body class="bg-light">
@@ -78,8 +97,8 @@ function addToCart(event, element) {
 				<th scope="col">Preview</th>
 				<th scope="col">Quantity</th>
 				<th scope="col">Price</th>
-				<th scope="col">Description</th>
-				<th scope="col">Add To Cart</th>
+				<th scope="col" id = "desCol">Description</th>
+				<th scope="col" id = "lastCol">Add To Cart</th>
 				
 			</tr>
 			<tbody>
@@ -106,7 +125,7 @@ function addToCart(event, element) {
 					<td>
 						<%= rs.getFloat("rating") %>
 					</td>
-					<td><img src="/images/<%= rs.getString("image") %>" height="80px" width="120px">
+					<td><img src="/images/<%= rs.getString("image") %>" height="120px" width="120px">
 					<td>
 						<%= rs.getInt("quantity") %>
 					</td>
@@ -117,8 +136,8 @@ function addToCart(event, element) {
 						<%= rs.getString("description") %>
 					</td>
 
-					<td>
-					<button type = "button" class="btn btn-info btn-lg" data-product-id=<%= rs.getInt(1) %> onclick="addToCart(event, this)">Add To Cart</button>
+					<td id = "lastCol">
+					<button type = "button" class="btn btn-info btn-lg" id= "addCart" data-product-id=<%= rs.getInt(1) %> onclick="addToCart(event, this)">Add To Cart</button>
 
 					</td>
 					<td>
