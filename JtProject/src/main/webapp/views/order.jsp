@@ -25,6 +25,26 @@
     });
 </script>
 
+<style>
+	#updateButton{
+		font-size: 15px;
+		height: 45px;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;	
+	    margin-top: 25px;    
+	}
+	#desCol{
+		width: 600px;
+	}
+	#lastCol{
+		width: 200px;
+		margin-right: 5px;
+		height: 130px;
+		text-align: center;
+	}
+</style>
+
 <title>Document</title>
 </head>
 <body class="bg-light">
@@ -55,8 +75,8 @@
 				<th scope="col">Preview</th>
 				<th scope="col">Quantity</th>
 				<th scope="col">Price</th>
-				<th scope="col">Description</th>
-				<th scope="col">Update</th>
+				<th scope="col" id = "desCol">Description</th>
+				<th scope="col" class = "lastCol">Update</th>
 				
 			</tr>
 			<tbody>
@@ -90,7 +110,7 @@
 					        <input type="number" name="rating" value="<%= rs.getInt("order_rating") > 0 ? rs.getInt("order_rating") : "" %>" min="0" max="5" class="form-control" required>
 
 					</td>
-				    <td><img src="/images/<%= rs.getString("image") %>" height="80px" width="120px">
+				    <td><img src="/images/<%= rs.getString("image") %>" height="120px" width="120px">
 					<td>
 						<%= rs.getInt("order_quantity") %>
 					</td>
@@ -101,12 +121,12 @@
 				        <%= rs.getString("description") %>
 				    </td>
 
+			
 					<td>
-					<td>
-					    <input type="submit" value="Update" class="btn btn-info btn-lg">
+					    <input type="submit" value="Update" class="btn btn-info btn-lg" id = "updateButton">
 					    </form>
 					</td>
-					</td>
+					
 					<td>
 					
 					

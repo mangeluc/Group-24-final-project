@@ -28,8 +28,18 @@
 <title>Document</title>
 
 <style>
-	#submitButton{	
+	#checkoutButton{	
 		font-size: 15px;
+		margin-right: 30px;
+		height: 45px;
+	}
+	#updateButton{
+		font-size: 15px;
+		height: 45px;
+	    display: flex;
+	    align-items: center;
+	    justify-content: center;
+	    margin-top: 25px;
 	}
 </style>
 
