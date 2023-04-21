@@ -35,8 +35,8 @@ Apache Maven For Mac: brew install maven
 
 ## Log In 
 Admin database (pre-inplemented in the code which cannot be changed) 
--  user name:- admin
--  password :- 123 
+-  user name: admin
+-  password : 123 
 
 User module (register your own user with required information) 
 
