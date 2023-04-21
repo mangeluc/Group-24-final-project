@@ -167,6 +167,10 @@ public class UserController{
 	
 	@GetMapping("profileDisplay")
 	public String profileDisplay(Model model, HttpSession session) {
+	    if (session.getAttribute("userId") == null) {
+	        // Redirect to an appropriate page (e.g., login) if userId is not found in the session
+	        return "redirect:/userloginvalidate";
+	    }
 		String displayusername,displaypassword,displayemail,displayaddress;
 		try
 		{
@@ -192,12 +196,11 @@ public class UserController{
 		{
 			System.out.println("Exception:"+e);
 		}
-		System.out.println("Hello");
 		return "updateProfile";
 	}
 	
-	@GetMapping("updateuser")
-	public String updateUserProfile(@RequestParam("userid") int userid,@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("address") String address) 
+	@RequestMapping(value = "updateuser", method = RequestMethod.POST)
+	public String updateUserProfile(@RequestParam("userid") int userid,@RequestParam("username") String username, @RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("address") String address, HttpSession session) 
 	
 	{
 		try
@@ -210,7 +213,10 @@ public class UserController{
 			pst.setString(3, password);
 			pst.setString(4, address);
 			pst.setInt(5, userid);
-			pst.executeUpdate();	
+			pst.executeUpdate();
+			session.removeAttribute("username");
+			session.setAttribute("username", username);
+
 		}
 		catch(Exception e)
 		{

@@ -96,7 +96,7 @@
 				    <td>
 				        <%= rs.getFloat("rating") %>
 				    </td>
-				    <td><img src="/images/<%= rs.getString("image") %>" height="80px" width="120px">
+				    <td><img src="/images/<%= rs.getString("image") %>" height="120px" width="120px">
 					<td>
 					    <form action="/updateCart" method="post">
 					        <input type="hidden" name="productId" value="<%= rs.getInt("id") %>">
