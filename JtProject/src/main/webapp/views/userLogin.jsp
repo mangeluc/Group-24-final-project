@@ -49,7 +49,7 @@
 
 body {
         background-color: #F3EBF6;
-        font-family: Optina;
+        font-family: Optima;
     }
         
         
