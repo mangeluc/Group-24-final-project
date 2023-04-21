@@ -33,7 +33,7 @@ Apache Maven For Mac: brew install maven
 - If the googlecloud is not working, manually import springproject.sql file in database to create all table
 
 
-## log in 
+## Log In 
 Admin database (pre-inplemented in the code which cannot be changed) 
 -  user name:- admin
 -  password :- 123 
@@ -42,7 +42,7 @@ User module (register your own user with required information)
 
 
 
-## preview of main pages
+## Preview of Main Pages
 - homepage
 ![Preview Homepage](https://github.com/mangeluc/Group-24-final-project/raw/main/JtProject/src/main/resources/static/images/preview_homepage.jpg)
 ![Preview Homepage](https://github.com/mangeluc/Group-24-final-project/raw/main/JtProject/src/main/resources/static/images/Preview_selection.jpg)
