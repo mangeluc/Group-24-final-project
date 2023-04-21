@@ -17,7 +17,7 @@
 				<h3 class="num">XXXX XXXX XXXX XXXX</h3>
 				<h4>name</br>Trojan</h4>
 				<h4>EXP</br>XX/XX</h4>
-				<h4>CVC</br>XXX</h4>
+				<h4>CCV</br>XXX</h4>
 			</div>
 			<div class="main">
 				<div class="content">
