@@ -296,7 +296,7 @@ body,html{width:100%;height:100%;}
 .bg-product{
   /* SET Height cho nó rồi bảo sao ko lỗi? */
   /*height: 446px;*/
-  background: #d1d7f5;
+  background: #e1e5fa;
   /* overflow: hidden; */
 }
 #sliderproduct{
@@ -310,19 +310,16 @@ body,html{width:100%;height:100%;}
   background: #fff;
   box-shadow: 0px 4px 8px 0px #959595;
   position: relative;
-  /* Thêm cái của nợ này vào bảo sao nó ko tràn bờ đê */
-  /*top: -44px;
-  padding: 100px;
-  padding-top: 40px;*/
 }
 .item {
   padding: 20px 20px 40px 20px;
 }
 
 .col-sm-6.image .item img.img-fluid {
-  /* Ai mướn thêm cái vào làm phá bố cục css của người ta.. mún trang web đẹp thì phải lựa cái ảnh đẹp đẹp vào rồi set cái độ rộng cho nó vừa là được rồi */
-  /*min-width: 100%;*/
-  width: 315px;
+ margin-top: 0px;
+ padding-top: 0px;
+ width: 350px;
+ height: 400px;
 }
 .col-sm-6.image h1 {
   margin-bottom: 20px;
@@ -345,6 +342,14 @@ body,html{width:100%;height:100%;}
 
 #sliderproduct .col-sm-4.mr-auto {
   margin-top: 22px;
+}
+
+.container.product{
+	height: 450px;
+}
+
+.row{
+	height: 450px;
 }
 
 *{}
@@ -432,6 +437,11 @@ body,html{width:100%;height:100%;}
   display: none;
 }
 
+.col-sm-6.image{
+	border-radius: 10px;
+	height: 450px;
+}
+
 .footer {
   position: fixed;
   bottom: 0;
@@ -464,10 +474,10 @@ body,html{width:100%;height:100%;}
                                 </a>
                                 <div class="card-content">
                                     <h4 class="card-title">
-                                        Best deal's
+                                       Product list
                                     </h4>
                                     <p class="">
-                                       view all products
+                                       View all products
                                         <br>
                                     </p>
                                 </div>
@@ -488,7 +498,7 @@ body,html{width:100%;height:100%;}
                                         View cart
                                     </h4>
                                     <p class="">
-                                      view added items.
+                                      View added items
                                         <br>
                                     </p>
                                 </div>
@@ -509,7 +519,7 @@ body,html{width:100%;height:100%;}
                                         Order History
                                     </h4>
                                     <p class="">
-                                       view all orders
+                                       View all orders
                                         <br>
                                     </p>
                                 </div>
@@ -559,8 +569,7 @@ body,html{width:100%;height:100%;}
 
         .container-fostrap {
             display: table-cell;
-            background-color: #b1ade2;
-            background-image: linear-gradient(315deg, #b1ade2 0%, #7ddff8 74%);
+            background-image: linear-gradient(to right, #eed2fc, #dcd0f7, #d8d2f7, #d1d6ff, #cedbff);
             padding: 1em;
             text-align: center;
             vertical-align: middle;
@@ -611,6 +620,7 @@ body,html{width:100%;height:100%;}
             transition: 0.5s ease;
             animation: start_animation 0.5s ease 1;
             box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+            border-radius: 20px;
         }
 
         .cfont {
@@ -622,8 +632,8 @@ body,html{width:100%;height:100%;}
         }
 
         .img-card {
-            width: 80%;
-            height: 225px;
+            width: 100%;
+            height: 250px;
             min-width: 14rem;
             border-top-left-radius: 2px;
             border-top-right-radius: 2px;
@@ -632,9 +642,9 @@ body,html{width:100%;height:100%;}
         }
 
         .img-card img {
-            margin-top: 15px;
-            width: fit-content;
-            height: 200px;
+
+            width: 100%;
+            height: 250px;
             object-fit: cover;
             transition: all .25s ease;
             filter: drop-shadow(0.35rem 0.35rem 0.4rem rgba(0, 0, 0, 0.5));
@@ -642,8 +652,8 @@ body,html{width:100%;height:100%;}
 
         .card-content {
             padding: 15px;
-            text-align: left;
-
+            text-align: center;
+			
         }
 
         .card-content p {
