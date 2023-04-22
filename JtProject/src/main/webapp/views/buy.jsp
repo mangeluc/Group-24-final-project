@@ -24,7 +24,7 @@
 							<input type="text" name="number" placeholder="Card Number" /> 
 							<input type="text" name="expiry" placeholder="MM / YY" /> 
 							<input type="text" name="cvc" placeholder="CCV" />
-							<input type="text" name="streetaddress" required="required" autocomplete="on" maxlength="45" placeholder="Streed Address" /> 
+							<input type="text" name="streetaddress" required="required" autocomplete="on" maxlength="45" placeholder="Street Address" /> 
 							<input type="text" name="city" required="required" autocomplete="on" maxlength="20" placeholder="City" /> 
 							<input type="text" name="zipcode" required="required" autocomplete="on" pattern="[0-9]*" maxlength="5" placeholder="ZIP code" />
 					</form>
