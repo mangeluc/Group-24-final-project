@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class UserController{
 	//IMPORTANT: make sure these three variables are correct before running
-//	public static final String databaseURL = "jdbc:mysql://34.135.208.117/flowers";
-	public static final String databaseURL = "jdbc:mysql://localhost:3306/flowers";
+	public static final String databaseURL = "jdbc:mysql://34.135.208.117/flowers";
+	//public static final String databaseURL = "jdbc:mysql://localhost:3306/flowers";
 	public static final String databaseUser = "root";
-	public static final String databasePassword = "L123@qwe";
+	public static final String databasePassword = "";
 	
 	@RequestMapping(value = {"/logout"})
 	public String returnIndex(HttpSession session) {
