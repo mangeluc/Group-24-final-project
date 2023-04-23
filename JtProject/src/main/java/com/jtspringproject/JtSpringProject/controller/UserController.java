@@ -22,9 +22,10 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 public class UserController{
 	//IMPORTANT: make sure these three variables are correct before running
-	public static final String databaseURL = "jdbc:mysql://34.135.208.117/flowers";
+//	public static final String databaseURL = "jdbc:mysql://34.135.208.117/flowers";
+	public static final String databaseURL = "jdbc:mysql://localhost:3306/flowers";
 	public static final String databaseUser = "root";
-	public static final String databasePassword = "";
+	public static final String databasePassword = "L123@qwe";
 	
 	@RequestMapping(value = {"/logout"})
 	public String returnIndex(HttpSession session) {
@@ -114,6 +115,13 @@ public class UserController{
 		try
 		{
 			Connection con = DriverManager.getConnection(databaseURL,databaseUser,databasePassword);
+	        PreparedStatement checkPst = con.prepareStatement("SELECT * FROM users WHERE username = ?;");
+	        checkPst.setString(1, username);
+	        ResultSet resultSet = checkPst.executeQuery();
+	        if (resultSet.next()) {
+	            return "redirect:/register";
+	        }
+
 			PreparedStatement pst = con.prepareStatement("insert into users(username,password,email, role, address) values(?,?,?, 'ROLE_USER', ?);");
 			pst.setString(1,username);
 			pst.setString(2, password);
