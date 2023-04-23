@@ -72,7 +72,7 @@
 						<%= rs.getString(2) %>
 					</td>
 					
-					<td><img src="/images/<%= rs.getString("image") %>" height="100px" width="120px"></td>
+					<td><img src="/images/<%= rs.getString("image") %>" height="130px" width="120px"></td>
 					<td>
 						<%= rs.getInt(9) %>
 					</td>
