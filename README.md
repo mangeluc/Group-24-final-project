@@ -54,6 +54,7 @@ User module (register your own user with required information)
 
 
 ## ⭐ 
-- Youtube Project Video Working Demo + step by step execution Video -- [click here]() (URL not updated yet) 
+- Project Video Presentation --  [Video](https://github.com/mangeluc/Group-24-final-project/blob/main/CSCI201_FPP_Team_24_%20presentation.mp4) , [Slids](https://github.com/mangeluc/Group-24-final-project/blob/main/CSCI201_FPP_Team_24.pdf)
+- Project Video Demo --  [Video](https://github.com/mangeluc/Group-24-final-project/blob/main/CSCI201_FPP_Team_24_Demo.mp4) 
 - [Download PDF for Completed Documentation](https://github.com/mangeluc/Group-24-final-project/raw/main/CSCI201%20Team24%20-%20Complete%20Documentation.pdf)
 
