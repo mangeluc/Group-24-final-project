@@ -34,7 +34,7 @@ Apache Maven For Mac: brew install maven
 2. go to usercontroller.java
 3. change the databasePassword to your own one and change the url to:
 ```sh
-public static final String databaseURL = "jdbc:mysql://localhost:3306/flowers";”
+public static final String databaseURL = "jdbc:mysql://localhost:3306/flowers";
 ```
 
 
