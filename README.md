@@ -27,9 +27,15 @@ Reviews and Ratings: Users can leave ratings on flowers, helping other users mak
 ```sh
 Apache Maven For Mac: brew install maven
 ```
-- Download and import project zip in Eclipse Ide
+- Download and import project zip in Eclipse Ide as Maven Object
 - Right click project and run as java application (select JtSpringProjectApplication...) & open: http://localhost:8080/
-- If the googlecloud is not working, manually import springproject.sql file in database to create all table
+- If the googlecloud is not working, manually import springproject.sql file in database to create all table: 
+1. creat database using .sql 
+2. go to usercontroller.java
+3. change the databasePassword to your own one and change the url to:
+```sh
+public static final String databaseURL = "jdbc:mysql://localhost:3306/flowers";”
+```
 
 
 ## Log In 
