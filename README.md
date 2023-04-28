@@ -48,12 +48,12 @@ User module (register your own user with required information)
 
 
 ## Preview of Main Pages
-- homepage
+- Homepage
 ![Preview Homepage](https://github.com/mangeluc/Group-24-final-project/raw/main/JtProject/src/main/resources/static/images/preview_homepage.jpg)
 ![Preview Homepage](https://github.com/mangeluc/Group-24-final-project/raw/main/JtProject/src/main/resources/static/images/Preview_selection.jpg)
-- login page
+- Login Page
 ![Preview Login](https://github.com/mangeluc/Group-24-final-project/raw/main/JtProject/src/main/resources/static/images/Preview_Login.jpg)
-- admin homepage
+- Admin Homepage
 ![Preview Admin Page](https://github.com/mangeluc/Group-24-final-project/raw/main/JtProject/src/main/resources/static/images/Preview_adminpage.jpg)
 - View All Products
 ![Preview All Products](https://github.com/mangeluc/Group-24-final-project/raw/main/JtProject/src/main/resources/static/images/Preview_allproduct.jpg)
